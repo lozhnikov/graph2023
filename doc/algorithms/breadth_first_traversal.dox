@@ -1,0 +1,26 @@
+/*!
+
+@file breadth_first_traversal.dox
+@author Mikhail Lozhnikov
+
+@page breadth_first_traversal Алгоритм обхода в ширину
+
+@section breadth_first_traversal_algo Описание алгоритма
+
+
+Алгоритм реализован в функции graph::BreadthFirstTraversal().
+
+*/
+
+
+/*!
+@fn graph::BreadthFirstTraversal(GraphType& graph, Predicate predicate)
+
+Функция реализует алгоритм топологической сортировки, описанный в разделе
+@ref breadth_first_traversal.
+
+Время работы алгоритма
+\f$
+O(V + E)
+\f$.
+*/
