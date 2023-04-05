@@ -32,6 +32,11 @@ void TestWeightedOrientedGraph();
 
 /* Сюда нужно добавить объявления тестовых функций. */
 
+/**
+ * @brief Набор тестов для функции graph::WeightedOrientedGraph().
+ */
+void TestBreadthFirstTraversal(httplib::Client* cli);
+
 
 
 /* Конец вставки. */
