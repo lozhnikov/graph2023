@@ -30,12 +30,27 @@ int main(int argc, char* argv[]) {
   // Обработчик для GET запроса по адресу /stop. Этот обработчик
   // останавливает сервер.
   svr.Get("/stop", [&](const httplib::Request&, httplib::Response&) {
-    svr.stop();
+    // svr.stop();
+    std::cout << "close server(tipo)" << "\n\n";
   });
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
+  // svr.Post("/kun_algorithm",
+  // [&](const httplib::Request&, httplib::Response&) {
+  //   // MyAlgorithmNameMethod(const nlohmann::json& input, nlohmann::json* output);
+  //   // svr.stop();
+  //   std::cout << "kun_algorithm(tipo)" << "\n\n";
+  // });
 
+  svr.Post("/kun_algorithm", [&](const httplib::Request& req, httplib::Response& res) {
+      std::cout << "req.body = " << req.body << "\n";
+      const nlohmann::json input = nlohmann::json::parse(req.body);
+      nlohmann::json* output = new nlohmann::json();
+      graph::KunAlgorithmMethod(input, output);
+      std::cout << "result: " << (*output).dump() << "\n";
+      res.set_content((*output).dump(), "application/json");
+  });
 
   /* Конец вставки. */
 

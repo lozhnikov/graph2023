@@ -9,6 +9,7 @@
 #include "test.hpp"
 #include "test_core.hpp"
 
+
 int main(int argc, char* argv[]) {
   // Порт по-умолчанию.
   int port = 8080;
@@ -40,8 +41,9 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить вызов набора тестов для алгоритма. */
 
-
-
+  // TestBridgeSearch(cli);
+  TestKunAlgorithm(cli);
+  
   /* Конец вставки. */
 
   // Отправляем GET запрос для остановки сервера.
