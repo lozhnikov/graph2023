@@ -42,7 +42,6 @@ std::vector<Edge> BridgeSearch(Graph &graph) {
    * Алгоритма возвращает отсортированный список рёбер в виде пар:
    * (id одной вершины, id второй вершины) - все мосты графа.
   */
-  std::size_t vertices_num = graph.NumVertices();
   std::map<size_t, int> tin;
   std::map<size_t, int> low;
   std::map<size_t, bool> visited;

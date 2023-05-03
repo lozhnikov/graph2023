@@ -79,12 +79,11 @@ void TestBridgeSearch(httplib::Client &cli) {
     }
   };
   for (const auto &[name, value] : cases) {
-    std::cout << name << "... ";
     auto output = cli.Post("/bridge_search", value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
-    std::cout << "OK!\n";
   }
-  std::cout << "\nBIG RANDOM CASE... ";
+
+  // Random test
   int vertices_num = 1000;
   int edges_num = 500;
 
@@ -109,5 +108,4 @@ void TestBridgeSearch(httplib::Client &cli) {
       {"edges", edges}
   };
   auto output = cli.Post("/bridge_search", random_graph.dump(), "application/json");
-  std::cout << "OK!\n";
 }
