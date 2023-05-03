@@ -1,6 +1,8 @@
-#include "methods.hpp"
 #include <bridge_search.hpp>
+#include <nlohmann/json.hpp>
 #include <graph.hpp>
+#include "methods.hpp"
+
 
 using graph::Graph;
 
