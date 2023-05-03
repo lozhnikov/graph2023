@@ -1,59 +1,113 @@
+#include <bridge_search.hpp>
+#include <nlohmann/json.hpp>
 #include <unordered_set>
-#include <vector>
+#include <graph.hpp>
+#include <httplib.h>
 #include <algorithm>
 #include <utility>
 #include <random>
+#include <vector>
+#include <ctime>
 #include "test_core.hpp"
-#include <graph.hpp>
-#include <httplib.h>
-#include <nlohmann/json.hpp>
-#include <bridge_search.hpp>
-
-
-using std::unordered_set;
-using std::vector;
-using std::pair;
-using std::make_pair;
-
-using std::out_of_range;
-using std::random_device;
-using std::mt19937;
-using std::uniform_int_distribution;
 
 using graph::Graph;
 
-namespace {
-/**
- * @brief Класс для хеширования std::pair<size_t, size_t>.
- */
-    class Hash {
-    public:
-        size_t operator()(pair<size_t, size_t> item) const noexcept {
-            const size_t prime = 479001599;
 
-            return item.first * prime + item.second;
-        }
-    };
-
-}  // namespace
-
-
-void TestBridgeSearch(httplib::Client &cli){
-    int num_cases = 1;
-    std::vector<std::pair<nlohmann::json, nlohmann::json>> cases(num_cases);
-    for(int i = 0; i < num_cases; ++i) {
-        cases[i] = {
-                {
-                        {"vertices", {1, 2, 3}},
-                        {"edges", {{1, 2}, {2, 3}}}
-                },
-                {
-                        {"result", {{1, 2}, {2, 3}}}
-                }
-        };
+void TestBridgeSearch(httplib::Client &cli) {
+  /**
+   * @brief Тесты алгоритма bridge_search.
+   *
+   * @param cli Клиент, отправляющий запросы.
+   *
+   * Функция тестирует алгоритм, Отправляя JSON-ы с клиента, и 
+   * проверяя выходные JSON-ы на корректность.
+  */
+  std::map<std::string, std::pair<nlohmann::json, nlohmann::json>> cases;
+  std::vector<std::pair<size_t, size_t>> empty_list;
+  cases["Empty"] = {
+    {
+      {"vertices", empty_list}, 
+      {"edges", empty_list}
+    },
+    {
+      {"bridges", empty_list}
     }
-    for(auto req: cases){
-        auto output = cli.Post("/bridge_search", req.first.dump(), "application/json");
-        REQUIRE(output->body == req.second.dump());
+  };
+  cases["One line"] = {
+    {
+      {"vertices", {1, 2, 3, 10}}, 
+      {"edges", {{1, 2}, {2, 3}, {3, 10}}}
+    },
+    {
+      {"bridges", {{1, 2}, {2, 3}, {3, 10}}}
     }
+  };
+  cases["No edges"] = {
+    {
+      {"vertices", {1, 2, 3, 4}}, 
+      {"edges", empty_list}
+    },
+    {
+      {"bridges", empty_list}
+    }
+  };
+  cases["All connected"] = {
+    {
+      {"vertices", {1, 2, 3}}, 
+      {"edges", {{1, 2}, {2, 3}, {3, 1}}}
+    },
+    {
+      {"bridges", empty_list}
+    }
+  };
+  cases["Multiple Connectivity components"] = {
+    {
+      {"vertices", {1, 2, 3, 4, 5}}, 
+      {"edges", {{1, 2}, {3, 4}}}
+    },
+    {
+      {"bridges", {{1, 2}, {3, 4}}}
+    }
+  };
+  cases["Complex case"] = {
+    {
+      {"vertices", {1, 2, 3, 4, 5, 6, 7, 8}},
+      {"edges", {{1, 2}, {2, 3}, {3, 1}, {3, 4}, {4, 6}, {6, 7}}}
+    },
+    {
+      {"bridges", {{3, 4}, {4, 6}, {6, 7}}}
+    }
+  };
+  for (const auto &[name, value] : cases) {
+    std::cout << name << "... ";
+    auto output = cli.Post("/bridge_search", value.first.dump(), "application/json");
+    REQUIRE(output->body == value.second.dump());
+    std::cout << "OK!\n";
+  }
+  std::cout << "\nBIG RANDOM CASE... ";
+  int vertices_num = 1000;
+  int edges_num = 500;
+
+  std::vector<size_t> vertices(vertices_num);
+  std::iota(vertices.begin(), vertices.end(), 0);
+
+  std::vector<std::pair<size_t, size_t>> edges;
+  std::mt19937 generator(345);
+  std::uniform_int_distribution dist(0, vertices_num-1);
+  for (int i = 0; i < edges_num; ++i) {
+    size_t vert1 = dist(generator);
+    size_t vert2 = dist(generator);
+    if (vert1 > vert2) {
+      std::swap(vert1, vert2);
+    }
+    edges.push_back({vert1, vert2});
+  }
+  sort(edges.begin(), edges.end());
+  edges.erase(unique(edges.begin(), edges.end()), edges.end());
+  nlohmann::json random_graph = {
+      {"vertices", vertices}, 
+      {"edges", edges}
+  };
+  auto output = cli.Post("/bridge_search", random_graph.dump(), "application/json");
+  std::cout << "OK!\n";
 }

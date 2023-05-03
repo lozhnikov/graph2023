@@ -5,14 +5,12 @@
  * Файл с функией main() для серверной части программы.
  */
 
+#include "methods.hpp"
 #include <httplib.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
-#include "methods.hpp"
 
-
-
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   // Порт по-умолчанию.
   int port = 8080;
 
@@ -29,19 +27,18 @@ int main(int argc, char* argv[]) {
 
   // Обработчик для GET запроса по адресу /stop. Этот обработчик
   // останавливает сервер.
-  svr.Get("/stop", [&](const httplib::Request&, httplib::Response&) {
-    // svr.stop();
-    std::cout << "close server(tipo)" << "\n\n";
-  });
+  svr.Get("/stop",
+          [&](const httplib::Request &, httplib::Response &) { svr.stop(); });
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-  svr.Post("/bridge_search", [&](const httplib::Request& req, httplib::Response& res) {
-      const nlohmann::json js = nlohmann::json::parse(req.body);
-      nlohmann::json* result = new nlohmann::json();
-      graph::BridgeSearchMethod(js, result);
-      res.set_content((*result).dump(), "application/json");
-  });
+  svr.Post("/bridge_search",
+           [&](const httplib::Request &req, httplib::Response &res) {
+  const nlohmann::json js = nlohmann::json::parse(req.body);
+  nlohmann::json *result = new nlohmann::json();
+  graph::BridgeSearchMethod(js, result);
+  res.set_content((*result).dump(), "application/json");
+});
 
   /* Конец вставки. */
 

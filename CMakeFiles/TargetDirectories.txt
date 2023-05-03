@@ -1,4 +1,0 @@
-/mnt/c/Users/kapas/CLionProjects/untitled/graph2023/CMakeFiles/graph_server.dir
-/mnt/c/Users/kapas/CLionProjects/untitled/graph2023/CMakeFiles/graph_test.dir
-/mnt/c/Users/kapas/CLionProjects/untitled/graph2023/CMakeFiles/edit_cache.dir
-/mnt/c/Users/kapas/CLionProjects/untitled/graph2023/CMakeFiles/rebuild_cache.dir
