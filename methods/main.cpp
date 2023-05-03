@@ -30,12 +30,18 @@ int main(int argc, char* argv[]) {
   // Обработчик для GET запроса по адресу /stop. Этот обработчик
   // останавливает сервер.
   svr.Get("/stop", [&](const httplib::Request&, httplib::Response&) {
-    svr.stop();
+    // svr.stop();
+    std::cout << "close server(tipo)" << "\n\n";
   });
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-
+  svr.Post("/bridge_search", [&](const httplib::Request& req, httplib::Response& res) {
+      const nlohmann::json js = nlohmann::json::parse(req.body);
+      nlohmann::json* result = new nlohmann::json();
+      graph::BridgeSearchMethod(js, result);
+      res.set_content((*result).dump(), "application/json");
+  });
 
   /* Конец вставки. */
 

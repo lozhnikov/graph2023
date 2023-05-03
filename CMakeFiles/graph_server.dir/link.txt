@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/graph_server.dir/methods/bridge_search_method.cpp.o CMakeFiles/graph_server.dir/methods/main.cpp.o -o graph_server  -lpthread 

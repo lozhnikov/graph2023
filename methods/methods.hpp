@@ -14,7 +14,7 @@ namespace graph {
 
 /* Сюда нужно вставить объявление серверной части алгоритма. */
 
-
+void BridgeSearchMethod(const nlohmann::json& input, nlohmann::json* output);
 
 /* Конец вставки. */
 
