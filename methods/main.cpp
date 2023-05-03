@@ -5,10 +5,10 @@
  * Файл с функией main() для серверной части программы.
  */
 
-#include "methods.hpp"
 #include <httplib.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include "methods.hpp"
 
 int main(int argc, char *argv[]) {
   // Порт по-умолчанию.
