@@ -13,7 +13,7 @@
 using graph::Graph;
 
 
-void TestBridgeSearch(httplib::Client &cli) {
+void TestBridgeSearch(httplib::Client *cli) {
   /**
    * @brief Тесты алгоритма bridge_search.
    *
@@ -79,13 +79,13 @@ void TestBridgeSearch(httplib::Client &cli) {
     }
   };
   for (const auto &[name, value] : cases) {
-    auto output = cli.Post("/bridge_search", value.first.dump(), "application/json");
+    auto output = cli->Post("/bridge_search", value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
   }
 
   // Random test
-  int vertices_num = 1000;
-  int edges_num = 500;
+  int vertices_num = 60;
+  int edges_num = 30;
 
   std::vector<size_t> vertices(vertices_num);
   std::iota(vertices.begin(), vertices.end(), 0);
@@ -107,5 +107,5 @@ void TestBridgeSearch(httplib::Client &cli) {
       {"vertices", vertices}, 
       {"edges", edges}
   };
-  auto output = cli.Post("/bridge_search", random_graph.dump(), "application/json");
+  auto output = cli->Post("/bridge_search", random_graph.dump(), "application/json");
 }

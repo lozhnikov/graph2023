@@ -1,10 +1,20 @@
+/**
+ * @file bridge_search.hpp
+ * @author Pavel Korniychuk
+ *
+ * Реализация алгоритма поиска мостов в графе.
+ */
+
+// #ifndef INCLUDE_BRIDGE_SEARCH_HPP_
+// #define INCLUDE_BRIDGE_SEARCH_HPP_
+
 #include <algorithm>
-#include <graph.hpp>
-#include <iostream>
-#include <stack>
 #include <map>
 #include <vector>
+#include <graph.hpp>
+
 #define Edge std::pair<size_t, size_t>
+
 
 using graph::Graph;
 
