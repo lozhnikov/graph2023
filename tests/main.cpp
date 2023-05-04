@@ -21,29 +21,26 @@ int main(int argc, char *argv[]) {
   TestOrientedGraph();
   TestWeightedGraph();
   TestWeightedOrientedGraph();
-  
-  std::cout << "ports start 1\n";
+
   if (argc >= 2) {
     // Меняем хост, если предоставлен соответствующий аргумент командной строки.
     host = std::string(argv[1]);
   }
 
-  std::cout << "ports start 2\n";
   if (argc >= 3) {
     // Меняем порт, если предоставлен соответствующий аргумент командной строки.
     if (std::sscanf(argv[2], "%d", &port) != 1)
       return -1;
   }
-  std::cout << "ports start 3\n";
 
   // Адрес подключения в формате хост:порт.
   std::string url = host + ":" + std::to_string(port);
-  std::cout << "cli\n";
+
   httplib::Client cli(url.c_str());
 
   /* Сюда нужно вставить вызов набора тестов для алгоритма. */
-  std::cout << "test\n";
-  TestBridgeSearch(&cli);
+
+  // TestBridgeSearch(&cli);
 
   /* Конец вставки. */
 
