@@ -18,25 +18,25 @@
 
 using graph::Graph;
 
-void DFS(Graph &graph,
-         std::map<size_t, int> &tin,
-         std::map<size_t, int> &low,
-         std::map<size_t, bool> &visited,
-         size_t root, size_t dest, int &time,
-         std::vector<Edge> &bridges) {
-  visited[root] = true;
-  tin[root] = low[root] = ++time;
+void DFS(const Graph &graph,
+         std::map<size_t, int> *tin,
+         std::map<size_t, int> *low,
+         std::map<size_t, bool> *visited,
+         size_t root, size_t dest, int *time,
+         std::vector<Edge> *bridges) {
+  (*visited)[root] = true;
+  (*tin)[root] = (*low)[root] = ++(*time);
   for (size_t way : graph.Edges(root)) {
     if (way == dest) {
       continue;
     }
-    if (visited[way]) {
-      low[root] = std::min(low[root], tin[way]);
+    if ((*visited)[way]) {
+      (*low)[root] = std::min((*low)[root], (*tin)[way]);
     } else {
       DFS(graph, tin, low, visited, way, root, time, bridges);
-      low[root] = std::min(low[root], low[way]);
-      if (low[way] > tin[root]) {
-        bridges.push_back({way, root});
+      (*low)[root] = std::min((*low)[root], (*low)[way]);
+      if ((*low)[way] > (*tin)[root]) {
+        (*bridges).push_back({way, root});
       }
     }
   }
@@ -59,9 +59,11 @@ std::vector<Edge> BridgeSearch(const Graph &graph) {
   int time = 0;
   for (auto vert : graph.Vertices()) {
     if (!visited[vert]) {
-      DFS(graph, tin, low, visited, vert, -1, time, bridges);
+      DFS(graph, &tin, &low, &visited, vert, -1, &time, &bridges);
     }
   }
   sort(bridges.begin(), bridges.end());
   return bridges;
 }
+
+#endif  // INCLUDE_BRIDGE_SEARCH_HPP_
