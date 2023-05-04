@@ -81,7 +81,6 @@ void TestBridgeSearch(httplib::Client *cli) {
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
     std::cout << "OK!\n";
-    return;
   }
 
   std::cout << "Random test... ";
