@@ -1,9 +1,9 @@
-#include <httplib.h>
-#include <graph.hpp>
-#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <random>
 #include <vector>
+#include <httplib.h>
+#include <graph.hpp>
+#include <nlohmann/json.hpp>
 #include "test_core.hpp"
 
 using graph::Graph;

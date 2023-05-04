@@ -5,8 +5,8 @@
  * Реализация алгоритма поиска мостов в графе.
  */
 
-// #ifndef INCLUDE_BRIDGE_SEARCH_HPP_
-// #define INCLUDE_BRIDGE_SEARCH_HPP_
+#ifndef INCLUDE_BRIDGE_SEARCH_HPP_
+#define INCLUDE_BRIDGE_SEARCH_HPP_
 
 #include <algorithm>
 #include <map>
@@ -18,10 +18,10 @@
 
 using graph::Graph;
 
-void DFS(Graph &graph, 
-         std::map<size_t, int> &tin, 
+void DFS(Graph &graph,
+         std::map<size_t, int> &tin,
          std::map<size_t, int> &low,
-         std::map<size_t, bool> &visited, 
+         std::map<size_t, bool> &visited,
          size_t root, size_t dest, int &time,
          std::vector<Edge> &bridges) {
   visited[root] = true;
@@ -42,7 +42,7 @@ void DFS(Graph &graph,
   }
 }
 
-std::vector<Edge> BridgeSearch(Graph &graph) {
+std::vector<Edge> BridgeSearch(const Graph &graph) {
   /**
    * @brief Алгоритм поиска всех мостов в графе.
    *

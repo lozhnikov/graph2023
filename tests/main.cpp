@@ -5,9 +5,9 @@
  * Файл с функией main() для клиентской части программы (набора тестов).
  */
 
+#include <httplib.h>
 #include "test.hpp"
 #include "test_core.hpp"
-#include <httplib.h>
 
 int main(int argc, char *argv[]) {
   // Порт по-умолчанию.
