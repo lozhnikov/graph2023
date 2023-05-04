@@ -79,33 +79,34 @@ void TestBridgeSearch(httplib::Client *cli) {
     auto output = cli->Post("/bridge_search",
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
-    std::cout << name << "OK!\n";
+    std::cout << "OK!\n";
   }
 
-  // Random test
-  // int vertices_num = 60;
-  // int edges_num = 30;
+  std::cout << "Random test... ";
+  int vertices_num = 100;
+  int edges_num = 50;
 
-  // std::vector<size_t> vertices(vertices_num);
-  // std::iota(vertices.begin(), vertices.end(), 0);
+  std::vector<size_t> vertices(vertices_num);
+  std::iota(vertices.begin(), vertices.end(), 0);
 
-  // std::vector<std::pair<size_t, size_t>> edges;
-  // std::mt19937 generator(345);
-  // std::uniform_int_distribution dist(0, vertices_num-1);
-  // for (int i = 0; i < edges_num; ++i) {
-  //   size_t vert1 = dist(generator);
-  //   size_t vert2 = dist(generator);
-  //   if (vert1 > vert2) {
-  //     std::swap(vert1, vert2);
-  //   }
-  //   edges.push_back({vert1, vert2});
-  // }
-  // sort(edges.begin(), edges.end());
-  // edges.erase(unique(edges.begin(), edges.end()), edges.end());
-  // nlohmann::json random_graph = {
-  //     {"vertices", vertices},
-  //     {"edges", edges}
-  // };
-  // auto output = cli->Post("/bridge_search",
-  //                         random_graph.dump(), "application/json");
+  std::vector<std::pair<size_t, size_t>> edges;
+  std::mt19937 generator(345);
+  std::uniform_int_distribution dist(0, vertices_num-1);
+  for (int i = 0; i < edges_num; ++i) {
+    size_t vert1 = dist(generator);
+    size_t vert2 = dist(generator);
+    if (vert1 > vert2) {
+      std::swap(vert1, vert2);
+    }
+    edges.push_back({vert1, vert2});
+  }
+  sort(edges.begin(), edges.end());
+  edges.erase(unique(edges.begin(), edges.end()), edges.end());
+  nlohmann::json random_graph = {
+      {"vertices", vertices},
+      {"edges", edges}
+  };
+  auto output = cli->Post("/bridge_search",
+                          random_graph.dump(), "application/json");
+  std:: cout << "OK!\n";
 }
