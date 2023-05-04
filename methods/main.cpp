@@ -28,7 +28,8 @@ int main(int argc, char *argv[]) {
   // Обработчик для GET запроса по адресу /stop. Этот обработчик
   // останавливает сервер.
   svr.Get("/stop", [&](const httplib::Request&, httplib::Response&) {
-    svr.stop();
+    // svr.stop();
+    return;
   });
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */

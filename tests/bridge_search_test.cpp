@@ -1,10 +1,10 @@
+#include <bridge_search.hpp>
 #include <httplib.h>
 #include <algorithm>
 #include <random>
 #include <vector>
 #include <graph.hpp>
 #include <nlohmann/json.hpp>
-#include <bridge_search.hpp>
 #include "test_core.hpp"
 
 using graph::Graph;
