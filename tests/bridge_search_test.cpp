@@ -1,7 +1,7 @@
+#include <httplib.h>
 #include <algorithm>
 #include <random>
 #include <vector>
-#include <httplib.h>
 #include <graph.hpp>
 #include <nlohmann/json.hpp>
 #include "test_core.hpp"

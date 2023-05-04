@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-  svr.Post("/bridge_search", 
+  svr.Post("/bridge_search",
            [&](const httplib::Request &req, httplib::Response &res) {
     const nlohmann::json js = nlohmann::json::parse(req.body);
     nlohmann::json *result = new nlohmann::json();

@@ -6,7 +6,7 @@
 
 using graph::Graph;
 
-void graph::BridgeSearchMethod(const nlohmann::json &input, 
+void graph::BridgeSearchMethod(const nlohmann::json &input,
                                nlohmann::json *output) {
   /**
    * @brief Серверная часть алгоритма bridge_search.
