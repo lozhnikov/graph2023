@@ -18,7 +18,6 @@ void TestBridgeSearch(httplib::Client *cli) {
    * Функция тестирует алгоритм, Отправляя JSON-ы с клиента, и 
    * проверяя выходные JSON-ы на корректность.
   */
-  std::cout << "start test\n";
   std::map<std::string, std::pair<nlohmann::json, nlohmann::json>> cases;
   std::vector<std::pair<size_t, size_t>> empty_list;
   cases["Empty"] = {
@@ -75,7 +74,6 @@ void TestBridgeSearch(httplib::Client *cli) {
       {"bridges", {{3, 4}, {4, 6}, {6, 7}}}
     }
   };
-  std::cout << "defined cases\n";
   for (const auto &[name, value] : cases) {
     std::cout << name << "... ";
     auto output = cli->Post("/bridge_search",
