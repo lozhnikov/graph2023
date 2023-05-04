@@ -1,13 +1,9 @@
-#include <nlohmann/json.hpp>
-#include <unordered_set>
-#include <graph.hpp>
 #include <httplib.h>
+#include <graph.hpp>
+#include <nlohmann/json.hpp>
 #include <algorithm>
-#include <utility>
 #include <random>
 #include <vector>
-#include <ctime>
-#include <bridge_search.hpp>
 #include "test_core.hpp"
 
 using graph::Graph;
@@ -79,7 +75,7 @@ void TestBridgeSearch(httplib::Client *cli) {
     }
   };
   for (const auto &[name, value] : cases) {
-    auto output = cli->Post("/bridge_search", 
+    auto output = cli->Post("/bridge_search",
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
   }
@@ -108,6 +104,6 @@ void TestBridgeSearch(httplib::Client *cli) {
       {"vertices", vertices},
       {"edges", edges}
   };
-  auto output = cli->Post("/bridge_search", 
+  auto output = cli->Post("/bridge_search",
                           random_graph.dump(), "application/json");
 }
