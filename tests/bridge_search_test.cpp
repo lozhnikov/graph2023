@@ -1,4 +1,3 @@
-#include <bridge_search.hpp>
 #include <nlohmann/json.hpp>
 #include <unordered_set>
 #include <graph.hpp>
@@ -8,6 +7,7 @@
 #include <random>
 #include <vector>
 #include <ctime>
+#include <bridge_search.hpp>
 #include "test_core.hpp"
 
 using graph::Graph;
@@ -26,7 +26,7 @@ void TestBridgeSearch(httplib::Client *cli) {
   std::vector<std::pair<size_t, size_t>> empty_list;
   cases["Empty"] = {
     {
-      {"vertices", empty_list}, 
+      {"vertices", empty_list},
       {"edges", empty_list}
     },
     {
@@ -35,7 +35,7 @@ void TestBridgeSearch(httplib::Client *cli) {
   };
   cases["One line"] = {
     {
-      {"vertices", {1, 2, 3, 10}}, 
+      {"vertices", {1, 2, 3, 10}},
       {"edges", {{1, 2}, {2, 3}, {3, 10}}}
     },
     {
@@ -44,7 +44,7 @@ void TestBridgeSearch(httplib::Client *cli) {
   };
   cases["No edges"] = {
     {
-      {"vertices", {1, 2, 3, 4}}, 
+      {"vertices", {1, 2, 3, 4}},
       {"edges", empty_list}
     },
     {
@@ -53,7 +53,7 @@ void TestBridgeSearch(httplib::Client *cli) {
   };
   cases["All connected"] = {
     {
-      {"vertices", {1, 2, 3}}, 
+      {"vertices", {1, 2, 3}},
       {"edges", {{1, 2}, {2, 3}, {3, 1}}}
     },
     {
@@ -62,7 +62,7 @@ void TestBridgeSearch(httplib::Client *cli) {
   };
   cases["Multiple Connectivity components"] = {
     {
-      {"vertices", {1, 2, 3, 4, 5}}, 
+      {"vertices", {1, 2, 3, 4, 5}},
       {"edges", {{1, 2}, {3, 4}}}
     },
     {
@@ -79,7 +79,8 @@ void TestBridgeSearch(httplib::Client *cli) {
     }
   };
   for (const auto &[name, value] : cases) {
-    auto output = cli->Post("/bridge_search", value.first.dump(), "application/json");
+    auto output = cli->Post("/bridge_search", 
+                            value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
   }
 
@@ -104,8 +105,9 @@ void TestBridgeSearch(httplib::Client *cli) {
   sort(edges.begin(), edges.end());
   edges.erase(unique(edges.begin(), edges.end()), edges.end());
   nlohmann::json random_graph = {
-      {"vertices", vertices}, 
+      {"vertices", vertices},
       {"edges", edges}
   };
-  auto output = cli->Post("/bridge_search", random_graph.dump(), "application/json");
+  auto output = cli->Post("/bridge_search", 
+                          random_graph.dump(), "application/json");
 }
