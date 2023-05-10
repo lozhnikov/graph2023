@@ -81,7 +81,7 @@ void TestBridgeSearchCore(httplib::Client *cli) {
     auto output = cli->Post("/BridgeSearch",
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
-    // REQUIRE_EQUAL(output->body, value.second.dump());
+    REQUIRE_EQUAL(output->body, value.second.dump());
     std::cout << "OK!\n";
   }
 

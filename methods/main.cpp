@@ -39,9 +39,7 @@ int main(int argc, char* argv[]) {
            [&](const httplib::Request &req, httplib::Response &res) {
     const nlohmann::json js = nlohmann::json::parse(req.body);
     nlohmann::json *result = new nlohmann::json();
-    // svr.set_keep_alive_timeout(1000);
     graph::BridgeSearchMethod(js, result);
-    // svr.set_keep_alive_timeout(10);
     res.set_content((*result).dump(), "application/json");
   });
 
