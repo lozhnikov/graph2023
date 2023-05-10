@@ -2,6 +2,7 @@
 #include <httplib.h>
 #include <algorithm>
 #include <random>
+#include <iostream>
 #include <vector>
 #include <graph.hpp>
 #include <nlohmann/json.hpp>
@@ -83,6 +84,7 @@ void TestBridgeSearchCore(httplib::Client *cli) {
     std::cout << "OK!\n";
   }
 
+  std::cout << "Random test... ";
   int vertices_num = 100;
   int edges_num = 50;
 
@@ -90,17 +92,30 @@ void TestBridgeSearchCore(httplib::Client *cli) {
   std::iota(vertices.begin(), vertices.end(), 0);
 
   std::vector<std::pair<size_t, size_t>> edges;
+
   std::random_device rd;
   std::mt19937 generator(rd());
   std::uniform_int_distribution dist(0, vertices_num-1);
+  int threshold = dist(generator);
+  std::uniform_int_distribution first_part(0, threshold-1);
+  std::uniform_int_distribution second_part(threshold, vertices_num-1);
+  std::bernoulli_distribution bern(0.5);
   for (int i = 0; i < edges_num; ++i) {
-    size_t vert1 = dist(generator);
-    size_t vert2 = dist(generator);
+    size_t vert1;
+    size_t vert2;
+    if (bern(generator)) {
+      vert1 = first_part(generator);
+      vert2 = first_part(generator);
+    } else {
+      vert1 = second_part(generator);
+      vert2 = second_part(generator);
+    }
     if (vert1 > vert2) {
       std::swap(vert1, vert2);
     }
     edges.push_back({vert1, vert2});
   }
+  edges.push_back({threshold-1, threshold});
   sort(edges.begin(), edges.end());
   edges.erase(unique(edges.begin(), edges.end()), edges.end());
   nlohmann::json random_graph = {
@@ -109,6 +124,11 @@ void TestBridgeSearchCore(httplib::Client *cli) {
   };
   auto output = cli->Post("/BridgeSearch",
                           random_graph.dump(), "application/json");
+  std::stringstream ss;
+  ss << "[" << threshold-1 << "," << threshold << "]";
+  std::string bridge = ss.str();
+  REQUIRE(output->body.find(bridge) != std::string::npos);
+  std::cout << "OK!\n";
 }
 
 void TestBridgeSearch(httplib::Client *cli) {
