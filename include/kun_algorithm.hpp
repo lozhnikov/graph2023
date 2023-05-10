@@ -15,7 +15,7 @@ bool TryKuhn(size_t v, std::unordered_map<size_t, int> *mt,
   }
   (*used)[v] = true;
   for (size_t to : graph.Edges(v)) {
-    if ((*mt)[to] == -1 || TryKuhn(mt[to], mt, used, graph)) {
+    if ((*mt)[to] == -1 || TryKuhn((*mt)[to], mt, used, graph)) {
       (*mt)[to] = v;
       return true;
     }
@@ -38,7 +38,7 @@ KunAlgorithm(const Graph &graph, const std::vector<size_t> &vertices_first_part,
     for (auto vert : graph.Vertices()) {
       used[vert] = false;
     }
-    TryKuhn(v, mt, used, graph);
+    TryKuhn(v, &mt, &used, graph);
   }
   std::vector<std::pair<size_t, size_t>> result;
   for (auto item : mt) {
