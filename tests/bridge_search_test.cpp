@@ -76,9 +76,11 @@ void TestBridgeSearchCore(httplib::Client *cli) {
     }
   };
   for (const auto &[name, value] : cases) {
+    std::cout << name << "... ";
     auto output = cli->Post("/BridgeSearch",
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
+    std::cout << "OK!\n";
   }
 
   int vertices_num = 100;
