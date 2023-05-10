@@ -35,7 +35,13 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-
+  svr.Post("/BridgeSearch",
+           [&](const httplib::Request &req, httplib::Response &res) {
+    const nlohmann::json js = nlohmann::json::parse(req.body);
+    nlohmann::json *result = new nlohmann::json();
+    graph::BridgeSearchMethod(js, result);
+    res.set_content((*result).dump(), "application/json");
+  });
 
   /* Конец вставки. */
 
