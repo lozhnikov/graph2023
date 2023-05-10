@@ -9,7 +9,7 @@
 #include "test.hpp"
 #include "test_core.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   // Порт по-умолчанию.
   int port = 8080;
   // Адрес сервера по-умолчанию.

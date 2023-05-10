@@ -9,19 +9,18 @@
 #define INCLUDE_BRIDGE_SEARCH_HPP_
 
 #include <algorithm>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <graph.hpp>
 
 #define Edge std::pair<size_t, size_t>
 
 
-using graph::Graph;
-
+template<class Graph>
 void DFS(const Graph &graph,
-         std::map<size_t, int> *tin,
-         std::map<size_t, int> *low,
-         std::map<size_t, bool> *visited,
+         std::unordered_map<size_t, int> *tin,
+         std::unordered_map<size_t, int> *low,
+         std::unordered_map<size_t, bool> *visited,
          size_t root, size_t dest, int *time,
          std::vector<Edge> *bridges) {
   (*visited)[root] = true;
@@ -42,6 +41,7 @@ void DFS(const Graph &graph,
   }
 }
 
+template<class Graph>
 std::vector<Edge> BridgeSearch(const Graph &graph) {
   /**
    * @brief Алгоритм поиска всех мостов в графе.
@@ -52,9 +52,9 @@ std::vector<Edge> BridgeSearch(const Graph &graph) {
    * Алгоритма возвращает отсортированный список рёбер в виде пар:
    * (id одной вершины, id второй вершины) - все мосты графа.
   */
-  std::map<size_t, int> tin;
-  std::map<size_t, int> low;
-  std::map<size_t, bool> visited;
+  std::unordered_map<size_t, int> tin;
+  std::unordered_map<size_t, int> low;
+  std::unordered_map<size_t, bool> visited;
   std::vector<Edge> bridges;
   int time = 0;
   for (auto vert : graph.Vertices()) {

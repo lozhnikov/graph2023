@@ -10,7 +10,7 @@
 using graph::Graph;
 
 
-void TestBridgeSearch(httplib::Client *cli) {
+void TestBridgeSearchCore(httplib::Client *cli) {
   /**
    * @brief Тесты алгоритма bridge_search.
    *
@@ -76,14 +76,11 @@ void TestBridgeSearch(httplib::Client *cli) {
     }
   };
   for (const auto &[name, value] : cases) {
-    std::cout << name << "... ";
-    auto output = cli->Post("/bridge_search",
+    auto output = cli->Post("/BridgeSearch",
                             value.first.dump(), "application/json");
     REQUIRE(output->body == value.second.dump());
-    std::cout << "OK!\n";
   }
 
-  std::cout << "Random test... ";
   int vertices_num = 100;
   int edges_num = 50;
 
@@ -91,7 +88,8 @@ void TestBridgeSearch(httplib::Client *cli) {
   std::iota(vertices.begin(), vertices.end(), 0);
 
   std::vector<std::pair<size_t, size_t>> edges;
-  std::mt19937 generator(345);
+  std::random_device rd;
+  std::mt19937 generator(rd());
   std::uniform_int_distribution dist(0, vertices_num-1);
   for (int i = 0; i < edges_num; ++i) {
     size_t vert1 = dist(generator);
@@ -107,7 +105,11 @@ void TestBridgeSearch(httplib::Client *cli) {
       {"vertices", vertices},
       {"edges", edges}
   };
-  auto output = cli->Post("/bridge_search",
+  auto output = cli->Post("/BridgeSearch",
                           random_graph.dump(), "application/json");
-  std:: cout << "OK!\n";
+}
+
+void TestBridgeSearch(httplib::Client *cli) {
+    TestSuite suite("TestBridgeSearch");
+    RUN_TEST_REMOTE(suite, cli, TestBridgeSearchCore);
 }

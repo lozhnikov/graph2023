@@ -9,8 +9,10 @@ using graph::Graph;
 void graph::BridgeSearchMethod(const nlohmann::json &input,
                                nlohmann::json *output) {
   /**
+   * 
    * @brief Серверная часть алгоритма bridge_search.
-   *
+   * @sa ../include/bridge_search
+   * 
    * @param input  Входной JSON.
    * @param output Выходной JSON.
    *
