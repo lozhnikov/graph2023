@@ -22,7 +22,7 @@ using std::uniform_int_distribution;
 
 using graph::Graph;
 
-void TestKunAlgorithm(httplib::Client &cli) {
+void TestKunAlgorithmSimple(httplib::Client *cli) {
     int num_cases = 1;
     std::vector<std::pair<nlohmann::json, nlohmann::json>> cases(num_cases);
     nlohmann::json input = {
@@ -35,15 +35,12 @@ void TestKunAlgorithm(httplib::Client &cli) {
             {"result", {{2, 1}, {4, 3}}},
     };
     
-    std::cout << "DONE CREATE input test case" << "\n";
-    std::cout << "input.dump() = " << input.dump() << "\n";
-    auto output = cli.Post("/kun_algorithm", input.dump(), "application/json");
-    std::cout << "output = " << output->body << "\n\n\n";
+    auto output = cli->Post("/kun_algorithm", input.dump(), "application/json");
     REQUIRE(output->body == expected.dump());
     REQUIRE_EQUAL(output->body, expected.dump());
 }
 
-// void TestKunAlgorithm(httplib::Client &cli) {
-//     TestSuite suite("TestKunAlgorithm");
-//     RUN_TEST_REMOTE(suite, &cli, TestKunAlgorithmSimple);
-// }
+void TestKunAlgorithm(httplib::Client *cli) {
+    TestSuite suite("TestKunAlgorithm");
+    RUN_TEST_REMOTE(suite, cli, TestKunAlgorithmSimple);
+}

@@ -41,8 +41,7 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить вызов набора тестов для алгоритма. */
 
-  // TestBridgeSearch(cli);
-  TestKunAlgorithm(cli);
+  TestKunAlgorithm(&cli);
   
   /* Конец вставки. */
 
