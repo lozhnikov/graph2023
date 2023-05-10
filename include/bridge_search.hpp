@@ -35,7 +35,11 @@ void DFS(const Graph &graph,
       DFS(graph, tin, low, visited, way, root, time, bridges);
       (*low)[root] = std::min((*low)[root], (*low)[way]);
       if ((*low)[way] > (*tin)[root]) {
-        (*bridges).push_back({way, root});
+        if (way > root) {
+          (*bridges).push_back({root, way});
+        } else {
+          (*bridges).push_back({way, root});
+        }
       }
     }
   }
