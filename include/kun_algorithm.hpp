@@ -1,3 +1,10 @@
+/**
+ * @file kun_algorithm.hpp
+ * @author Semin Mikhail
+ *
+ * Реализация алгоритма Куна
+ */
+
 #pragma once
 #include <algorithm>
 #include <iostream>
