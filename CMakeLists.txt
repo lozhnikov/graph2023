@@ -111,10 +111,12 @@ add_executable(
   graph_server
   include/graph.hpp
   include/iterators.hpp
+  include/matching_endmonds.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
   methods/main.cpp
+  methods/matching_endmonds.cpp
   methods/methods.hpp
 )
 
@@ -137,12 +139,14 @@ add_executable(
   graph_test
   include/graph.hpp
   include/iterators.hpp
+  include/matching_endmonds.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
   tests/graph_test.cpp
   tests/io.hpp
   tests/main.cpp
+  tests/matching_endmonds_test.cpp
   tests/oriented_graph_test.cpp
   tests/test.hpp
   tests/test_core.cpp
