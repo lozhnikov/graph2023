@@ -1,13 +1,13 @@
-#include "test_core.hpp"
-#include <algorithm>
-#include <graph.hpp>
-#include <httplib.h>
 #include <kun_algorithm.hpp>
-#include <nlohmann/json.hpp>
+#include <httplib.h>
+#include <algorithm>
 #include <random>
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <graph.hpp>
+#include <nlohmann/json.hpp>
+#include "test_core.hpp"
 
 using graph::Graph;
 
