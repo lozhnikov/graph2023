@@ -10,9 +10,7 @@
 #include <nlohmann/json.hpp>
 #include "methods.hpp"
 
-
-
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   // Порт по-умолчанию.
   int port = 8080;
 
@@ -35,7 +33,13 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-
+  svr.Post("/kun_algorithm",
+           [&](const httplib::Request &req, httplib::Response &res) {
+             const nlohmann::json input = nlohmann::json::parse(req.body);
+             nlohmann::json *output = new nlohmann::json();
+             graph::KunAlgorithmMethod(input, output);
+             res.set_content((*output).dump(), "application/json");
+           });
 
   /* Конец вставки. */
 
