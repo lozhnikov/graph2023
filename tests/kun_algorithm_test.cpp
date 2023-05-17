@@ -1,13 +1,13 @@
-#include <kun_algorithm.hpp>
-#include <httplib.h>
+#include "test_core.hpp"
 #include <algorithm>
+#include <graph.hpp>
+#include <httplib.h>
+#include <kun_algorithm.hpp>
+#include <nlohmann/json.hpp>
 #include <random>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <nlohmann/json.hpp>
-#include <graph.hpp>
-#include "test_core.hpp"
 
 using graph::Graph;
 
@@ -25,36 +25,38 @@ void TestKunAlgorithmSimple(httplib::Client *cli) {
   REQUIRE_EQUAL(output->body, expected.dump());
 }
 
-std::vector<int> GenRandomArray(std::mt19937 *gen, size_t count, int from, int to) {
-    std::uniform_int_distribution<int> dist(from, to);
-    std::vector<int> data(count);
-    for (int& cur : data) {
-        cur = dist(*gen);
-    }
-    return data;
+std::vector<int> GenRandomArray(std::mt19937 *gen, size_t count, int from,
+                                int to) {
+  std::uniform_int_distribution<int> dist(from, to);
+  std::vector<int> data(count);
+  for (int &cur : data) {
+    cur = dist(*gen);
+  }
+  return data;
 }
 
-std::vector<std::vector<int>> GenRandomEdges(std::mt19937 *gen, int count, int to) {
+std::vector<std::vector<int>> GenRandomEdges(std::mt19937 *gen, int count,
+                                             int to) {
   std::uniform_int_distribution<int> dist(count, count + to - 1);
   std::vector<std::vector<int>> data;
   std::set<int> memory;
   bool value_in_memory;
   int value;
   for (int i = 0; i < count; ++i) {
-      // data[i][0] = i;
+    // data[i][0] = i;
 
-      if (memory.size() == to) {
-        memory.clear();
-      }
+    if (memory.size() == to) {
+      memory.clear();
+    }
 
-      do {
-        value = dist(*gen);
-        value_in_memory = memory.find(value) != memory.end();
-      } while (value_in_memory);
+    do {
+      value = dist(*gen);
+      value_in_memory = memory.find(value) != memory.end();
+    } while (value_in_memory);
 
-      memory.insert(value);
-      // data[i][1] = value;
-      data.push_back({i, value});
+    memory.insert(value);
+    // data[i][1] = value;
+    data.push_back({i, value});
   }
   return data;
 }
@@ -76,8 +78,9 @@ void TestKunAlgorithmRandom(httplib::Client *cli) {
       vertices_second_part.push_back(i);
     }
   }
-  
-  std::vector<std::vector<int>> edges = GenRandomEdges(&generator, left_size, right_size);
+
+  std::vector<std::vector<int>> edges =
+      GenRandomEdges(&generator, left_size, right_size);
 
   nlohmann::json input = {{"vertices", vertices},
                           {"edges", edges},
