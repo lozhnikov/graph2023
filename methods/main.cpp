@@ -35,7 +35,12 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
 
-
+  svr.Post("/MSTKruskal", [&](const httplib::Request& req, httplib::Response& res){
+    const nlohmann::json js = nlohmann::json::parse(req.body);
+    auto *result = new nlohmann::json();
+    graph::MSTKruskalMethod(js, result);
+    res.set_content((*result).dump(), "application/json");
+  });
 
   /* Конец вставки. */
 

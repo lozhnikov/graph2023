@@ -32,7 +32,10 @@ void TestWeightedOrientedGraph();
 
 /* Сюда нужно добавить объявления тестовых функций. */
 
-
+/**
+ * @brief Набор тестов для алгоритма Крускала
+ */
+void TestMSTKruskal(httplib::Client& cli);
 
 /* Конец вставки. */
 

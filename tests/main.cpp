@@ -2,12 +2,15 @@
  * @file tests/main.cpp
  * @author Mikhail Lozhnikov
  *
- * Файл с функией main() для клиентской части программы (набора тестов).
+ * Файл с функцией main() для клиентской части программы (набора тестов).
  */
 
 #include <httplib.h>
 #include "test.hpp"
 #include "test_core.hpp"
+#include "weighted_graph.hpp"
+#include "mst_kruskal.hpp"
+#include <nlohmann/json.hpp>
 
 int main(int argc, char* argv[]) {
   // Порт по-умолчанию.
@@ -40,8 +43,26 @@ int main(int argc, char* argv[]) {
 
   /* Сюда нужно вставить вызов набора тестов для алгоритма. */
 
+  graph::WeightedGraph<int> gr;
+  gr.AddVertex(1);
+  gr.AddVertex(2);
+  gr.AddVertex(3);
+  gr.AddVertex(4);
+  gr.AddEdge(1, 2, 1);
+  gr.AddEdge(2, 3, 2);
+  gr.AddEdge(1, 3, 1);
+  gr.AddEdge(2, 4, 3);
+  gr.AddEdge(1, 4, 3);
+  gr.AddEdge(3, 4, 2);
 
+  nlohmann::json js;
+  auto MST = MSTKruskal(&gr);
+  for ( auto e : MST ) {
+    js["edges"].push_back({e.first.first, e.first.second, e.second});
+  }
+  std::cout << js.dump() << std::endl;
 
+  TestMSTKruskal(cli);
   /* Конец вставки. */
 
   // Отправляем GET запрос для остановки сервера.
