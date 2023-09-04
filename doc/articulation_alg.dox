@@ -1,0 +1,12 @@
+/*!
+@file articulation_alg.dox
+@author Vika Kukanova
+
+@components_searching Документация алгоритма articulation_alg
+
+@sa include/articulation_alg.hpp
+@sa include/graph.hpp
+articulation_alg - Алгоритм поиска всех точек сочления в графе за O(N+M).
+На вход подаётся ссылка на объект типа graph::Graph.
+Алгоритм возвращает список id вершин.
+*/

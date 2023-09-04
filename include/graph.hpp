@@ -13,6 +13,7 @@
 #include <vector>
 #include <utility>
 #include <iterators.hpp>
+#include <nlohmann/json.hpp>
 
 namespace graph {
 
