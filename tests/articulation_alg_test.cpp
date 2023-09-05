@@ -10,6 +10,17 @@
 
 using graph::Graph;
 
+void Function(const Graph& graph,
+              size_t root,
+              std::unordered_map<long unsigned int, bool>* used) {
+    (*used)[root] = true;
+
+    for (size_t way : graph.Edges(root)) {
+        if (!(*used)[way]) {
+            Function(graph, way, used);
+        }
+    }
+}
 
 void TestArticulationAlgCore(httplib::Client *cli) {
   /**
@@ -85,6 +96,63 @@ void TestArticulationAlgCore(httplib::Client *cli) {
     REQUIRE_EQUAL(output->body, value.second.dump());
     std::cout << "OK!\n";
   }
+
+  std::cout << "Random test... ";
+  int vertices_num = 100;
+  int edges_num = 150;
+
+
+  size_t n = rand() % 10 + 1;
+  graph::Graph graph;
+  graph:: Graph graph2;
+  std::vector<size_t> res;
+  int size = 0;
+  int tmp = 0;
+  size_t root;
+  std::unordered_map <long unsigned int, bool> used;
+
+  for (int i = 1; i <= n; i++) {
+    graph.AddVertex(i);
+  }
+
+  for (int i = 1; i < n-1; i++) {
+    graph.AddEdge(i, i + 1);
+  }
+
+  for (int i = 1; i < n; i++) {
+    for (int j = i + 1; j <= n; j++) {
+      size_t k = rand() % 2;
+        if (k == 1) {
+          graph.AddEdge(i, j);
+        }
+    }
+  }
+  for (auto vert : graph.Vertices())
+        used[vert] = false;
+  res = ArticulationAlg(graph);
+  graph2 = graph;
+  size = res.size();
+  for (int i = 1; i <= size; i++) {
+    graph2.RemoveVertex(res[i]);
+    if (i == 1)
+        root = res[2];
+    if (i != 1)
+        root = res[1];
+
+    Function(graph2, root, &used);
+    int k = 0;
+    for (int j = 0; j <= n; j++) {
+        if (used[res[j]] == false) {
+            k = 1;
+        }
+    }
+    tmp += k;
+  }
+  if (tmp == size)
+        std::cout << "OK!\n";
+   else
+        std::cout << "ERROR!\n";
+
 }
 
 void TestArticulationAlg(httplib::Client *cli) {
