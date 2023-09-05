@@ -11,7 +11,7 @@ jobs:
 - job: StyleChecks
   timeoutInMinutes: 3
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-latest'
 
   steps:
   - task: UsePythonVersion@0
@@ -36,7 +36,7 @@ jobs:
 - job: ClangStaticAnalysis
   timeoutInMinutes: 3
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-latest'
 
   steps:
   - script: |
@@ -57,7 +57,7 @@ jobs:
 - job: Linux
   timeoutInMinutes: 10
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     matrix:
       GCC:
@@ -86,7 +86,7 @@ jobs:
 - job: macOS
   timeoutInMinutes: 10
   pool:
-    vmImage: 'macOS-10.15'
+    vmImage: 'macOS-latest'
   steps:
   - script: |
       mkdir build && cd build
