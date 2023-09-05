@@ -42,16 +42,16 @@ jobs:
   - script: |
       sudo apt-get update
 
-      sudo apt-get install -y clang-tools-9
+      sudo apt-get install -y clang-tools-11
     displayName: 'Install build dependencies'
 
   - script: |
       mkdir build && cd build
 
-      scan-build-9 --use-c++=g++-9 cmake -G "Unix Makefiles" -D CMAKE_EXPORT_COMPILE_COMMANDS=ON ../
+      scan-build-11 --use-c++=g++-11 cmake -G "Unix Makefiles" -D CMAKE_EXPORT_COMPILE_COMMANDS=ON ../
     displayName: 'Run CMake'
 
-  - script: cd build && scan-build-9 --use-c++=g++-9 --status-bugs make -j2
+  - script: cd build && scan-build-11 --use-c++=g++-11 --status-bugs make -j2
     displayName: 'Run static analysis with clang'
 
 - job: Linux
@@ -61,23 +61,23 @@ jobs:
   strategy:
     matrix:
       GCC:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=g++-9 -D CMAKE_BUILD_TYPE=Release'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=g++-11 -D CMAKE_BUILD_TYPE=Release'
         TestsEnvArgs: ''
         ExtraPackages: ''
       libstdc++DebugDefines:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=g++-9 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _GLIBCXX_DEBUG -D _GLIBCXX_DEBUG_PEDANTIC"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=g++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _GLIBCXX_DEBUG -D _GLIBCXX_DEBUG_PEDANTIC"'
         TestsEnvArgs: ''
         ExtraPackages: ''
       libc++DebugDefines:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-10 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _LIBCPP_DEBUG=1 -stdlib=libc++"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _LIBCPP_DEBUG=1 -stdlib=libc++"'
         TestsEnvArgs: ''
-        ExtraPackages: 'libc++-10-dev libc++abi-10-dev'
+        ExtraPackages: 'libc++-11-dev libc++abi-11-dev'
       AddressSanitizer:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-10 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls"'
         TestsEnvArgs: 'ASAN_OPTIONS=detect_stack_use_after_return=1'
         ExtraPackages: ''
       UndefinedBehaviourSanitizer:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-10 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=undefined -fno-omit-frame-pointer -fno-optimize-sibling-calls" -D CMAKE_EXE_LINKER_FLAGS="-lubsan"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=undefined -fno-omit-frame-pointer -fno-optimize-sibling-calls" -D CMAKE_EXE_LINKER_FLAGS="-lubsan"'
         TestsEnvArgs: 'UBSAN_OPTIONS=print_stacktrace=1'
         ExtraPackages: ''
   steps:
