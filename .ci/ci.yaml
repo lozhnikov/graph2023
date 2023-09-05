@@ -42,16 +42,16 @@ jobs:
   - script: |
       sudo apt-get update
 
-      sudo apt-get install -y clang-tools-11
+      sudo apt-get install -y clang-tools-14
     displayName: 'Install build dependencies'
 
   - script: |
       mkdir build && cd build
 
-      scan-build-11 --use-c++=g++-11 cmake -G "Unix Makefiles" -D CMAKE_EXPORT_COMPILE_COMMANDS=ON ../
+      scan-build-14 --use-c++=g++-11 cmake -G "Unix Makefiles" -D CMAKE_EXPORT_COMPILE_COMMANDS=ON ../
     displayName: 'Run CMake'
 
-  - script: cd build && scan-build-11 --use-c++=g++-11 --status-bugs make -j2
+  - script: cd build && scan-build-14 --use-c++=g++-11 --status-bugs make -j2
     displayName: 'Run static analysis with clang'
 
 - job: Linux
@@ -69,17 +69,17 @@ jobs:
         TestsEnvArgs: ''
         ExtraPackages: ''
       libc++DebugDefines:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _LIBCPP_DEBUG=1 -stdlib=libc++"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-14 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -D _LIBCPP_DEBUG=1 -stdlib=libc++"'
         TestsEnvArgs: ''
-        ExtraPackages: 'libc++-11-dev libc++abi-11-dev'
+        ExtraPackages: 'clang-14 libc++-14-dev libc++abi-14-dev'
       AddressSanitizer:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-14 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls"'
         TestsEnvArgs: 'ASAN_OPTIONS=detect_stack_use_after_return=1'
-        ExtraPackages: ''
+        ExtraPackages: 'clang-14'
       UndefinedBehaviourSanitizer:
-        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-11 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=undefined -fno-omit-frame-pointer -fno-optimize-sibling-calls" -D CMAKE_EXE_LINKER_FLAGS="-lubsan"'
+        CMakeArgs: '-D CMAKE_CXX_COMPILER=clang++-14 -D CMAKE_BUILD_TYPE=Debug -D CMAKE_CXX_FLAGS="-O1 -fsanitize=undefined -fno-omit-frame-pointer -fno-optimize-sibling-calls" -D CMAKE_EXE_LINKER_FLAGS="-lubsan"'
         TestsEnvArgs: 'UBSAN_OPTIONS=print_stacktrace=1'
-        ExtraPackages: ''
+        ExtraPackages: 'clang-14'
   steps:
   - template: linux-steps.yaml
 
