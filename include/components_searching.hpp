@@ -5,6 +5,16 @@
  * Поиск компонент связности.
  */
 
+ /**
+   * @brief Алгоритм поиска компонент связности.
+   *
+   * @param graph Граф.
+   *
+   * На вход подаётся ссылка на объект типа graph::Graph, описанный в файле:
+   * @sa graph.cpp
+   * Алгоритм возвращает список пар: (номер компоненты связности, список id вершин компоненты связности).
+  **/
+
 #ifndef INCLUDE_COMPONENTS_SEARCHING_HPP_
 #define INCLUDE_COMPONENTS_SEARCHING_HPP_
 
@@ -33,15 +43,6 @@ void dfs(const Graph& graph,
 
 template<class Graph>
 std::unordered_map <size_t, std::unordered_set<size_t>> ComponentsSearching(const Graph& graph) {
-     /**
-   * @brief Алгоритм поиска компонент связности.
-   *
-   * @param graph Граф.
-   *
-   * На вход подаётся ссылка на объект типа graph::Graph, описанный в файле:
-   * @sa graph.cpp
-   * Алгоритм возвращает список пар: (номер компоненты связности, список id вершин компоненты связности).
-  **/
     std::unordered_map<size_t, bool> used;
     std::unordered_map<size_t, std::unordered_set<size_t>> res;
 

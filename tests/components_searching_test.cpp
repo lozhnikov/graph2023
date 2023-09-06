@@ -85,51 +85,58 @@ void TestComponentsSearchingCore(httplib::Client *cli) {
     std::cout << "OK!\n";
   }
 
-  std::cout << "Random test... ";
-  int vertices_num = 100;
-  int edges_num = 150;
+    std::cout << "Random test... ";
+    int vertices_num = 100;
+    int edges_num = 150;
+    int n = rand() % 30 + 1;
 
-  std::vector<size_t> vertices(vertices_num);
-  std::iota(vertices.begin(), vertices.end(), 0);
-  std::bernoulli_distribution bern(0.5);
-  std::random_device rd;
-  std::mt19937 generator(rd());
-  std::uniform_int_distribution dist(1, vertices_num-1);
+    graph::Graph graph;
 
-  for (int j = 0; j < 100; ++j) {
-    std::vector<std::pair<size_t, size_t>> edges;
-    int threshold = dist(generator);
-    std::uniform_int_distribution first_part(0, threshold-1);
-    std::uniform_int_distribution second_part(threshold, vertices_num-1);
-    for (int i = 0; i < edges_num; ++i) {
-      size_t vert1;
-      size_t vert2;
-      if (bern(generator)) {
-        vert1 = first_part(generator);
-        vert2 = first_part(generator);
-      } else {
-        vert1 = second_part(generator);
-        vert2 = second_part(generator);
-      }
-      if (vert1 > vert2) {
-        std::swap(vert1, vert2);
-      }
-      edges.push_back({vert1, vert2});
+    std::vector<size_t> vertices(n);
+    for (int i = 1; i <= n; i++) {
+    vertices[i-1] = i;
     }
-    edges.push_back({threshold-1, threshold});
-    sort(edges.begin(), edges.end());
-    edges.erase(unique(edges.begin(), edges.end()), edges.end());
+
+    std::vector<std::pair<size_t, size_t>> edges;
+    for (int i = 1; i < n; i++) {
+        for (int j = i + 1; j <= n; j++) {
+            int k = rand() % 2;
+            if (k == 1)
+                edges.push_back({i, j});
+        }
+    }
+
+    std::unordered_map <size_t, std::unordered_set<size_t>> result;
+    result.clear();
+    size_t testvert = 0;
+
     nlohmann::json random_graph = {
-        {"vertices", vertices},
-        {"edges", edges}
+      {"vertices", vertices},
+      {"edges", edges}
     };
+
     auto output = cli->Post("/ComponentsSearching",
-                            random_graph.dump(), "application/json");
-    std::stringstream ss;
-    ss << threshold-1 << "," << threshold;
-    std::string res = ss.str();
+                          random_graph.dump(), "application/json");
+    auto json_res = nlohmann::json::parse(output->body);
+
+    int k = 1;
+
+    for (auto vert: json_res["components"]) {
+        for (auto ver: vert){
+            if (ver == k) {
+                k++;
+            }
+            else {
+                for (auto ve: ver) {
+                    testvert++;
+                }
+            }
+        }
   }
-  std::cout << "OK!\n";
+
+    REQUIRE_EQUAL(testvert, n);
+    std::cout << "OK!\n";
+
 }
 
 void TestComponentsSearching(httplib::Client *cli) {
