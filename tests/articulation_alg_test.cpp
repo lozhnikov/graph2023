@@ -97,7 +97,7 @@ void TestArticulationAlgCore(httplib::Client *cli) {
     std::cout << "OK!\n";
   }
 
-  std::cout << "Random test... ";
+    std::cout << "Random test... ";
   int vertices_num = 100;
   int edges_num = 150;
 
@@ -111,25 +111,45 @@ void TestArticulationAlgCore(httplib::Client *cli) {
   size_t root;
   std::unordered_map <long unsigned int, bool> used;
 
+  std::vector<size_t> vertices(n);
   for (int i = 1; i <= n; i++) {
-    graph.AddVertex(i);
+    vertices[i-1] = i;
   }
+  std::vector<std::pair<size_t, size_t>> edges;
 
   for (int i = 1; i < n-1; i++) {
-    graph.AddEdge(i, i + 1);
+    edges.push_back({i, i+1});
   }
 
   for (int i = 1; i < n; i++) {
     for (int j = i + 1; j <= n; j++) {
       size_t k = rand() % 2;
         if (k == 1) {
-          graph.AddEdge(i, j);
+          edges.push_back({i, j});
         }
     }
   }
+
+  nlohmann::json random_graph = {
+      {"vertices", vertices},
+      {"edges", edges}
+  };
+  auto output = cli->Post("/ArticulationAlg",
+                          random_graph.dump(), "application/json");
+  auto json_res = nlohmann::json::parse(output->body);
+  for (auto vert: json_res["res"]) {
+    res.push_back(vert);
+  }
+
+  for (auto vert : vertices) {
+    graph.AddVertex(vert);
+  }
+  for (auto edge : edges) {
+    graph.AddEdge(edge.first, edge.second);
+  }
+
   for (auto vert : graph.Vertices())
         used[vert] = false;
-  res = ArticulationAlg(graph);
   graph2 = graph;
   size = res.size();
   for (int i = 1; i <= size; i++) {
@@ -148,10 +168,8 @@ void TestArticulationAlgCore(httplib::Client *cli) {
     }
     tmp += k;
   }
-  if (tmp == size)
-        std::cout << "OK!\n";
-   else
-        std::cout << "ERROR!\n";
+  REQUIRE_EQUAL(tmp, size);
+  std::cout << "OK!\n";
 
 }
 
