@@ -12,11 +12,13 @@
 
 namespace graph {
 
-/* Сюда нужно вставить объявление серверной части алгоритма. */
+	/* Сюда нужно вставить объявление серверной части алгоритма. */
+
+	void ComponentsSearchingMethod(const nlohmann::json& input, nlohmann::json* output);
 
 
 
-/* Конец вставки. */
+	/* Конец вставки. */
 
 }  // namespace graph
 

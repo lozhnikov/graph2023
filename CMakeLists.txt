@@ -109,11 +109,13 @@ include_directories(${GRAPH_INCLUDE_DIRS})
 
 add_executable(
   graph_server
+  include/components_searching.hpp
   include/graph.hpp
   include/iterators.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
+  methods/components_searching_method.cpp
   methods/main.cpp
   methods/methods.hpp
 )
@@ -135,11 +137,13 @@ target_link_libraries(graph_server ${GRAPH_LIBS})
 
 add_executable(
   graph_test
+  include/components_searching.hpp
   include/graph.hpp
   include/iterators.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
+  tests/components_searching_test.cpp
   tests/graph_test.cpp
   tests/io.hpp
   tests/main.cpp
@@ -158,4 +162,5 @@ add_executable(
 
 
 target_link_libraries(graph_test ${GRAPH_LIBS})
+
 

@@ -1,0 +1,12 @@
+/*!
+@file components_searching.dox
+@author Dmitrii Pankratov
+
+@components_searching Документация алгоритма components_searching
+
+@sa include/components_searching.hpp
+@sa include/graph.hpp
+components_searching - Алгоритм поиска компонент связности.
+На вход подаётся ссылка на объект типа graph::Graph.
+Алгоритм возвращает список пар: (номер компоненты связности, список id вершин компоненты связности).
+*/
