@@ -5,12 +5,11 @@
  * Файл с функией main() для серверной части программы.
  */
 
+#include <articulation_alg.hpp>
 #include <httplib.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "methods.hpp"
-
-
 
 int main(int argc, char* argv[]) {
   // Порт по-умолчанию.
@@ -34,7 +33,14 @@ int main(int argc, char* argv[]) {
   });
 
   /* Сюда нужно вставить обработчик post запроса для алгоритма. */
-
+  svr.Post("/ArticulationAlg",
+           [&](const httplib::Request &req, httplib::Response &res) {
+    const nlohmann::json input = nlohmann::json::parse(req.body);
+    nlohmann::json output;
+    graph::ArticulationAlgMethod(input, &output);
+    std::cout << "output" << "e" << std::endl;
+    res.set_content(output.dump(), "application/json");
+  });
 
 
   /* Конец вставки. */
