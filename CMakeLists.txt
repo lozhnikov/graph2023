@@ -111,11 +111,13 @@ add_executable(
   graph_server
   include/graph.hpp
   include/iterators.hpp
+  include/mst_kruskal.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
   methods/main.cpp
   methods/methods.hpp
+  methods/mst_kruskal_method.cpp
 )
 
 ####################################################################
@@ -137,12 +139,14 @@ add_executable(
   graph_test
   include/graph.hpp
   include/iterators.hpp
+  include/mst_kruskal.hpp
   include/oriented_graph.hpp
   include/weighted_graph.hpp
   include/weighted_oriented_graph.hpp
   tests/graph_test.cpp
   tests/io.hpp
   tests/main.cpp
+  tests/mst_kruskal_test.cpp
   tests/oriented_graph_test.cpp
   tests/test.hpp
   tests/test_core.cpp
