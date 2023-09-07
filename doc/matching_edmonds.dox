@@ -1,0 +1,13 @@
+/*!
+
+@file matching_edmonds.dox
+@author Nikita Stepanov
+
+@matching_edmonds Документация алгоритма matching_edmonds
+
+@sa include/matching_edmonds.hpp
+@sa include/graph.hpp
+metching_edmonds - Алгоритм Эдмондса нахождения наибольшего паросочетания в произвольных графах за O(N^#).
+На вход подаётся ссылка на объект типа graph::Graph.
+Выход алгоритма это наибольшая возможная мощность паросочетания графа.
+*/
