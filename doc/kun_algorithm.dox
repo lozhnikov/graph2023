@@ -1,0 +1,13 @@
+/*!
+
+@file kun_algorithm.dox
+@author Semin Mikhail
+
+@kun_algorithm Документация алгоритма kun_algorithm
+
+@sa include/kun_algorithm.hpp
+@sa include/graph.hpp
+kun_algorithm - Алгоритм Куна нахождения наибольшего паросочетания в двудольном графе
+На вход подаётся ссылка на объект типа graph::Graph и список вершин из первой доли и второй.
+Выход алгоритма это наибольшее паросочетание.
+*/

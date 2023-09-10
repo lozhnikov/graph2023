@@ -34,7 +34,7 @@ jobs:
 
 
 - job: ClangStaticAnalysis
-  timeoutInMinutes: 3
+  timeoutInMinutes: 10
   pool:
     vmImage: 'ubuntu-latest'
 

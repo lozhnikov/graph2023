@@ -10,11 +10,12 @@
 #ifndef METHODS_METHODS_HPP_
 #define METHODS_METHODS_HPP_
 
+
 namespace graph {
 
 /* Сюда нужно вставить объявление серверной части алгоритма. */
 
-
+void KunAlgorithmMethod(const nlohmann::json& input, nlohmann::json* output);
 
 /* Конец вставки. */
 
